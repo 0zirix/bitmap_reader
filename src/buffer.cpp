@@ -114,11 +114,13 @@ u64 Buffer::read_u64(const std::vector<u8>& bytes, size_t& offset, bool swap) {
 	return out;
 }
 
-std::vector<u8> Buffer::read_bytes(const std::vector<u8>& bytes, size_t n, size_t& offset) {
+std::vector<u8> Buffer::read_bytes(const std::vector<u8>& bytes, size_t n, size_t& offset, bool swap) {
 	std::vector<u8> out;
 
-	for (size_t i = 0; i < n; ++i)
-		out.push_back(bytes.at(offset + i));
+	for (size_t i = 0; i < n; ++i) {
+		auto byte = bytes.at(offset + i);
+		out.push_back(swap ? htons(byte) : byte);
+	}
 
 	return out;
 }
@@ -127,57 +129,57 @@ void Buffer::write_i8(std::vector<u8>& buffer, i8 value) {
 	buffer.push_back(value);
 }
 
-void Buffer::write_i16(std::vector<u8>& buffer, i16 value) {
-	buffer.push_back(value >> 8);
-	buffer.push_back(value >> 0);
+void Buffer::write_i16(std::vector<u8>& buffer, i16 value, bool swap) {
+	buffer.push_back(swap ? htons(value) : value >> 8);
+	buffer.push_back(swap ? htons(value) : value >> 0);
 }
 
-void Buffer::write_i32(std::vector<u8>& buffer, i32 value) {
-	buffer.push_back(value >> 24);
-	buffer.push_back(value >> 16);
-	buffer.push_back(value >> 8);
-	buffer.push_back(value >> 0);
+void Buffer::write_i32(std::vector<u8>& buffer, i32 value, bool swap) {
+	buffer.push_back(swap ? htonl(value) : value >> 24);
+	buffer.push_back(swap ? htonl(value) : value >> 16);
+	buffer.push_back(swap ? htonl(value) : value >> 8);
+	buffer.push_back(swap ? htonl(value) : value >> 0);
 }
 
-void Buffer::write_i64(std::vector<u8>& buffer, i64 value) {
-	buffer.push_back(value >> 56);
-	buffer.push_back(value >> 48);
-	buffer.push_back(value >> 40);
-	buffer.push_back(value >> 32);
-	buffer.push_back(value >> 24);
-	buffer.push_back(value >> 16);
-	buffer.push_back(value >> 8);
-	buffer.push_back(value >> 0);
+void Buffer::write_i64(std::vector<u8>& buffer, i64 value, bool swap) {
+	buffer.push_back(swap ? htonl(value) : value >> 56);
+	buffer.push_back(swap ? htonl(value) : value >> 48);
+	buffer.push_back(swap ? htonl(value) : value >> 40);
+	buffer.push_back(swap ? htonl(value) : value >> 32);
+	buffer.push_back(swap ? htonl(value) : value >> 24);
+	buffer.push_back(swap ? htonl(value) : value >> 16);
+	buffer.push_back(swap ? htonl(value) : value >> 8);
+	buffer.push_back(swap ? htonl(value) : value >> 0);
 }
 
 void Buffer::write_u8(std::vector<u8>& buffer, u8 value) {
 	buffer.push_back(value);
 }
 
-void Buffer::write_u16(std::vector<u8>& buffer, u16 value) {
-	buffer.push_back(value >> 8);
-	buffer.push_back(value >> 0);
+void Buffer::write_u16(std::vector<u8>& buffer, u16 value, bool swap) {
+	buffer.push_back(swap ? htons(value) : value >> 8);
+	buffer.push_back(swap ? htons(value) : value >> 0);
 }
 
-void Buffer::write_u32(std::vector<u8>& buffer, u32 value) {
-	buffer.push_back(value >> 24);
-	buffer.push_back(value >> 16);
-	buffer.push_back(value >> 8);
-	buffer.push_back(value >> 0);
+void Buffer::write_u32(std::vector<u8>& buffer, u32 value, bool swap) {
+	buffer.push_back(swap ? htonl(value) : value >> 24);
+	buffer.push_back(swap ? htonl(value) : value >> 16);
+	buffer.push_back(swap ? htonl(value) : value >> 8);
+	buffer.push_back(swap ? htonl(value) : value >> 0);
 }
 
-void Buffer::write_u64(std::vector<u8>& buffer, u64 value) {
-	buffer.push_back(value >> 56);
-	buffer.push_back(value >> 48);
-	buffer.push_back(value >> 40);
-	buffer.push_back(value >> 32);
-	buffer.push_back(value >> 24);
-	buffer.push_back(value >> 16);
-	buffer.push_back(value >> 8);
-	buffer.push_back(value >> 0);
+void Buffer::write_u64(std::vector<u8>& buffer, u64 value, bool swap) {
+	buffer.push_back(swap ? htonl(value) : value >> 56);
+	buffer.push_back(swap ? htonl(value) : value >> 48);
+	buffer.push_back(swap ? htonl(value) : value >> 40);
+	buffer.push_back(swap ? htonl(value) : value >> 32);
+	buffer.push_back(swap ? htonl(value) : value >> 24);
+	buffer.push_back(swap ? htonl(value) : value >> 16);
+	buffer.push_back(swap ? htonl(value) : value >> 8);
+	buffer.push_back(swap ? htonl(value) : value >> 0);
 }
 
-void Buffer::write_bytes(std::vector<u8>& buffer, const std::vector<u8>& bytes) {
+void Buffer::write_bytes(std::vector<u8>& buffer, const std::vector<u8>& bytes, bool swap) {
 	for (auto byte : bytes)
-		buffer.push_back(byte);
+		buffer.push_back(swap ? htons(byte) : byte);
 }
