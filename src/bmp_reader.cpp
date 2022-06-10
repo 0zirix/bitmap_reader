@@ -79,7 +79,7 @@ bool BMP::write(const std::string& filename, const Bitmap& bitmap)
 	Buffer::write_u32(buffer, htonl(bitmap.infos.size));
 	Buffer::write_u32(buffer, htonl(bitmap.infos.width));
 	Buffer::write_u32(buffer, htonl(bitmap.infos.height));
-	Buffer::write_u16(buffer, htonl(bitmap.infos.planes));
+	Buffer::write_u16(buffer, htons(bitmap.infos.planes));
 	Buffer::write_u16(buffer, htons(bitmap.infos.bit_count));
 	Buffer::write_u32(buffer, htonl(bitmap.infos.compression));
 	Buffer::write_u32(buffer, htonl(bitmap.infos.image_size));
